@@ -153,35 +153,21 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Rare company styling (rarity = 1) */
-        .company-card.rare {
-            background: linear-gradient(145deg, #18181b 0%, #0f2318 50%, #18181b 100%);
-            border: 2px solid #10b981;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-        }
-
-        .company-card.rare .company-name-text {
-            color: #10b981 !important;
+        .company-card.rare .company-name span:first-child {
+            color: #10b981;
             text-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
             filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.3));
         }
 
-        .company-card.rare .stats-badge {
-            background: rgba(16, 185, 129, 0.15);
-            border-color: rgba(16, 185, 129, 0.3);
-            color: #86efac;
-        }
-
-        /* Legendary company styling (rarity = 2) */
         .company-card.legendary {
             background: linear-gradient(145deg, #18181b 0%, #1a1025 50%, #18181b 100%);
             border: 3px solid transparent;
             background-clip: padding-box;
             position: relative;
             box-shadow:
-                0 0 15px rgba(139, 92, 246, 0.3),
-                0 0 30px rgba(236, 72, 153, 0.2),
-                inset 0 1px 0 rgba(6, 182, 212, 0.15);
+                0 0 5px rgba(139, 92, 246, 0.15),
+                0 0 10px rgba(236, 72, 153, 0.10),
+                inset 0 1px 0 rgba(6, 182, 212, 0.10);
         }
 
         .company-card.legendary::after {
@@ -192,17 +178,9 @@
             right: -3px;
             bottom: -3px;
             background: linear-gradient(45deg, #8b5cf6, #ec4899, #06b6d4, #10b981, #f59e0b, #ef4444);
-            background-size: 300% 300%;
-            animation: gradientShift 3s ease infinite;
             border-radius: 12px;
             z-index: -1;
-            opacity: 0.6;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            opacity: .25;
         }
 
         .company-card.legendary::before {
@@ -214,34 +192,22 @@
             bottom: 0;
             background: linear-gradient(45deg, 
                 transparent 30%, 
-                rgba(139, 92, 246, 0.1) 40%,
-                rgba(236, 72, 153, 0.1) 50%, 
-                rgba(6, 182, 212, 0.1) 60%,
+                rgba(139, 92, 246, 0.05) 40%,
+                rgba(236, 72, 153, 0.05) 50%, 
+                rgba(6, 182, 212, 0.05) 60%,
                 transparent 70%);
             pointer-events: none;
-            opacity: 0.3;
-            animation: shimmer 2s ease-in-out infinite;
+            opacity: .06;
         }
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .company-card.legendary .company-name-text {
+        .company-card.legendary .company-name span:first-child {
             background: linear-gradient(45deg, #8b5cf6, #ec4899, #06b6d4, #10b981, #f59e0b, #ef4444);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientShift 3s ease infinite;
-            filter: drop-shadow(0 0 8px rgba(139,92,246,0.5));
-        }
-
-        .company-card.legendary .stats-badge {
-            background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
-            border: 1px solid rgba(168, 85, 247, 0.5);
-            color: #e9d5ff;
+            text-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+            filter: drop-shadow(0 0 3px rgba(139,92,246,.2));
         }
 
         .company-card:active {
@@ -252,24 +218,19 @@
             padding: 1.25rem;
             border-bottom: 1px solid #27272a;
             min-height: auto;
-            position: relative;
-            z-index: 1;
         }
 
         .company-name {
             font-size: clamp(1rem, 3vw, 1.125rem);
             font-weight: 600;
+            color: #a855f7;
             margin-bottom: 0.75rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
             line-height: 1.3;
             gap: 0.5rem;
-        }
-
-        .company-name-text {
-            color: #a855f7;
-            text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
         }
 
         .company-positions {
@@ -284,8 +245,6 @@
             overflow: hidden;
             transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #09090b;
-            position: relative;
-            z-index: 1;
         }
 
         .card-content.expanded {
@@ -509,38 +468,6 @@
             font-size: 1rem;
         }
 
-        /* Rarity indicator badge */
-        .rarity-badge {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            padding: 0.25rem 0.625rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            z-index: 2;
-        }
-
-        .company-card.rare .rarity-badge {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);
-        }
-
-        .company-card.legendary .rarity-badge {
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
-            color: white;
-            box-shadow: 0 2px 15px rgba(139, 92, 246, 0.5);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
         /* Mobile-specific improvements */
         @media (max-width: 768px) {
             body {
@@ -758,15 +685,6 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 companiesData = await response.json();
-                
-                // Debug: log companies with rarity
-                console.log('Loaded companies:', companiesData);
-                companiesData.forEach(company => {
-                    if (company.rarity !== undefined && company.rarity !== null) {
-                        console.log(`Company: ${company.name}, Rarity: ${company.rarity}`);
-                    }
-                });
-                
                 filteredCompanies = companiesData;
                 renderResults(companiesData);
                 hideLoading();
@@ -864,21 +782,6 @@
             }
         }
 
-        function getRarityClass(rarity) {
-            // Convert rarity to number to ensure proper comparison
-            const rarityNum = parseInt(rarity);
-            if (rarityNum === 2) return 'legendary';
-            if (rarityNum === 1) return 'rare';
-            return '';
-        }
-
-        function getRarityLabel(rarity) {
-            const rarityNum = parseInt(rarity);
-            if (rarityNum === 2) return 'Legendarna';
-            if (rarityNum === 1) return 'Rzadka';
-            return '';
-        }
-
         function renderResults(companies) {
             const container = document.getElementById('resultsContainer');
             const noResults = document.getElementById('noResults');
@@ -892,24 +795,155 @@
             noResults.style.display = 'none';
             container.style.display = 'flex';
 
-            container.innerHTML = companies.map(company => {
-                const rarityClass = getRarityClass(company.rarity);
-                const rarityLabel = getRarityLabel(company.rarity);
-                
-                // Debug log for each company
-                console.log(`Rendering ${company.name}: rarity=${company.rarity}, class=${rarityClass}`);
-                
-                return `
-                <div class="company-card ${rarityClass}" onclick="toggleCard(${company.id})">
-                    ${rarityLabel ? `<div class="rarity-badge">${rarityLabel}</div>` : ''}
+            container.innerHTML = companies.map(company => `
+                <div class="company-card ${company.rarity === 2 ? 'legendary' : company.rarity === 1 ? 'rare' : ''}" onclick="toggleCard(${company.id})">
                     <div class="card-header">
                         <div class="company-name">
-                            <span class="company-name-text">${company.name}</span>
+                            <span>${company.name}</span>
                             <span class="expand-icon">↓</span>
                         </div>
                         <div class="company-positions">
-                            ${company.shortDescription || ''}
+                            ${company.shortDescription}
                             <div class="stats-badges">
                                 <span class="stats-badge">Stoisko ${company.boothNumber}</span>
                                 ${company.country ? `<span class="stats-badge">${company.country}</span>` : ''}
                             </div>
+                        </div>
+                    </div>
+                    <div class="card-content" id="content-${company.id}">
+                        <div class="tabs-container">
+                            <div class="tabs">
+                                <button class="tab active" onclick="showTab(event, ${company.id}, 'about')" tabindex="-1">O firmie</button>
+                                <button class="tab" onclick="showTab(event, ${company.id}, 'problems')" tabindex="-1">Wyzwania</button>
+                                <button class="tab" onclick="showTab(event, ${company.id}, 'opportunities')" tabindex="-1">Możliwości AI</button>
+                                ${company.hooks && company.hooks.length > 0 ? `<button class="tab" onclick="showTab(event, ${company.id}, 'hooks')" tabindex="-1">Zaczepki</button>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="tab-content active" id="about-${company.id}">
+                            <div class="info-section">
+                                <h4>Czym zajmuje się firma</h4>
+                                <p>${company.description || 'Brak dostępnych informacji.'}</p>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="problems-${company.id}">
+                            <div class="info-section">
+                                <h4>Aktualne problemy i wyzwania</h4>
+                                <p>${company.problems || 'Brak dostępnych informacji.'}</p>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="opportunities-${company.id}">
+                            <div class="info-section">
+                                <h4>Możliwości dla AI & Data</h4>
+                                <p>${company.opportunities || 'Brak dostępnych informacji.'}</p>
+                            </div>
+                        </div>
+
+                        ${company.hooks && company.hooks.length > 0 ? `
+                        <div class="tab-content" id="hooks-${company.id}">
+                            <div class="info-section">
+                                <h4>Zaczepki konwersacyjne</h4>
+                                <div class="hook-carousel">
+                                    <div class="hook-content-wrapper">
+                                        <div class="hook-text" id="hook-text-${company.id}">
+                                            ${company.hooks[0]}
+                                        </div>
+                                    </div>
+                                    ${company.hooks.length > 1 ? `
+                                    <div class="hook-navigation">
+                                        <button class="hook-nav-button" onclick="previousHook(${company.id})" id="prev-${company.id}">← Poprz.</button>
+                                        <div class="hook-indicator">
+                                            <span class="hook-counter" id="counter-${company.id}">1 / ${company.hooks.length}</span>
+                                        </div>
+                                        <button class="hook-nav-button" onclick="nextHook(${company.id})" id="next-${company.id}">Nast. →</button>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            companies.forEach(company => {
+                if (company.hooks && company.hooks.length > 0) {
+                    initializeHookState(company.id);
+                    updateHookDisplay(company.id);
+                }
+            });
+        }
+
+        function toggleCard(companyId) {
+            const card = event.currentTarget;
+            const content = document.getElementById(`content-${companyId}`);
+
+            if (event.target.closest('.card-content')) return;
+
+            document.querySelectorAll('.company-card.expanded').forEach(otherCard => {
+                if (otherCard !== card) {
+                    otherCard.classList.remove('expanded');
+                    const otherContent = otherCard.querySelector('.card-content');
+                    otherContent.classList.remove('expanded');
+                }
+            });
+
+            card.classList.toggle('expanded');
+            content.classList.toggle('expanded');
+        }
+
+        function showTab(event, companyId, tabName) {
+            event.stopPropagation();
+
+            document.querySelectorAll(`#content-${companyId} .tab`).forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll(`#content-${companyId} .tab-content`).forEach(c => c.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-${companyId}`).classList.add('active');
+        }
+
+        const hookState = {};
+        function initializeHookState(companyId) {
+            if (!hookState[companyId]) hookState[companyId] = { currentIndex: 0 };
+        }
+        
+        function nextHook(companyId) {
+            event.stopPropagation();
+            initializeHookState(companyId);
+            const company = filteredCompanies.find(c => c.id === companyId) || companiesData.find(c => c.id === companyId);
+            const maxIndex = company.hooks.length - 1;
+            if (hookState[companyId].currentIndex < maxIndex) {
+                hookState[companyId].currentIndex++;
+                updateHookDisplay(companyId);
+            }
+        }
+        
+        function previousHook(companyId) {
+            event.stopPropagation();
+            initializeHookState(companyId);
+            if (hookState[companyId].currentIndex > 0) {
+                hookState[companyId].currentIndex--;
+                updateHookDisplay(companyId);
+            }
+        }
+        
+        function updateHookDisplay(companyId) {
+            const company = filteredCompanies.find(c => c.id === companyId) || companiesData.find(c => c.id === companyId);
+            if (!company || !company.hooks) return;
+            
+            const currentIndex = hookState[companyId].currentIndex;
+            const hookText = document.getElementById(`hook-text-${companyId}`);
+            const counter = document.getElementById(`counter-${companyId}`);
+            const prevBtn = document.getElementById(`prev-${company.id}`);
+            const nextBtn = document.getElementById(`next-${company.id}`);
+            
+            if (hookText) hookText.textContent = company.hooks[currentIndex];
+            if (counter) counter.textContent = `${currentIndex + 1} / ${company.hooks.length}`;
+            if (prevBtn) prevBtn.disabled = currentIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentIndex === company.hooks.length - 1;
+        }
+    </script>
+</body>
+</html>
