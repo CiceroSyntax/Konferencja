@@ -148,15 +148,20 @@ def transform_company_data(row):
         if hook_value and str(hook_value).strip():
             hooks.append(str(hook_value).strip())
     
-    # Sprawdź różne możliwe wartości dla "czy warto się zainteresować"
+    # Pobierz wartość rarity bezpośrednio z kolumny czy_warto_sie_zainteresowac
     priority_value = row_dict.get('czy_warto_sie_zainteresowac')
-    is_legendary = False
+    rarity = 0  # domyślnie
     
-    if priority_value:
-        # Sprawdź czy to '1', 1, 'tak', 'yes' itp.
-        priority_str = str(priority_value).lower().strip()
-        if priority_str in ['1', 'tak', 'yes', 'true', 'warto']:
-            is_legendary = True
+    if priority_value is not None:
+        try:
+            # Konwertuj na int - wartości 0, 1, 2 odpowiadają poziomom rarity
+            rarity = int(priority_value)
+            # Upewnij się, że wartość jest w dozwolonym zakresie
+            if rarity not in [0, 1, 2]:
+                rarity = 0
+        except (ValueError, TypeError):
+            # Jeśli nie da się skonwertować na int, zostaw 0
+            rarity = 0
     
     return {
         'id': row_dict.get('id'),
@@ -170,7 +175,7 @@ def transform_company_data(row):
         'description': row_dict.get('czym_zajmuje_sie_firma', ''),
         'problems': row_dict.get('problemy_i_wyzwania', ''),
         'opportunities': row_dict.get('mozliwosci_AI_i_danych', ''),
-        'rarity': 1 if is_legendary else 0,
+        'rarity': rarity,  # Teraz poprawnie używa wartości 0, 1, 2 z bazy
         'hooks': hooks
     }
 
@@ -378,7 +383,7 @@ def add_company():
             data.get('zaczepka1'),
             data.get('zaczepka2'),
             data.get('zaczepka3'),
-            data.get('czy_warto_sie_zainteresowac', 'moze')
+            data.get('czy_warto_sie_zainteresowac', 0)
         )
         
         cursor.execute(insert_query, params)
@@ -521,6 +526,46 @@ def get_stats():
         
     except Exception as e:
         logger.error(f"Błąd podczas pobierania statystyk: {e}")
+        return jsonify({'error': f'Błąd serwera: {str(e)}'}), 500
+
+@app.route('/api/debug/priority-values', methods=['GET'])
+def debug_priority_values():
+    """Debug: sprawdza jakie wartości są w kolumnie czy_warto_sie_zainteresowac"""
+    try:
+        connection = get_db_connection()
+        if not connection:
+            return jsonify({'error': 'Błąd połączenia z bazą danych'}), 500
+        
+        cursor = connection.cursor()
+        
+        # Sprawdź unikalne wartości w kolumnie priority
+        cursor.execute("""
+            SELECT czy_warto_sie_zainteresowac, COUNT(*) as count 
+            FROM companies 
+            GROUP BY czy_warto_sie_zainteresowac
+            ORDER BY count DESC
+        """)
+        priority_values = [{'value': row[0], 'count': row[1]} for row in cursor.fetchall()]
+        
+        # Sprawdź strukturę tabeli
+        cursor.execute("PRAGMA table_info(companies)")
+        columns = [{'name': col[1], 'type': col[2]} for col in cursor.fetchall()]
+        
+        # Sprawdź przykładowe rekordy
+        cursor.execute("SELECT id, company, czy_warto_sie_zainteresowac FROM companies LIMIT 10")
+        sample_records = [dict(row) for row in cursor.fetchall()]
+        
+        cursor.close()
+        connection.close()
+        
+        return jsonify({
+            'priority_values': priority_values,
+            'table_columns': columns,
+            'sample_records': sample_records
+        })
+        
+    except Exception as e:
+        logger.error(f"Błąd podczas debug priority values: {e}")
         return jsonify({'error': f'Błąd serwera: {str(e)}'}), 500
 
 @app.route('/api/tables', methods=['GET'])
